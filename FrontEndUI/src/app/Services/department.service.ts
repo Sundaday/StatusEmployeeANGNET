@@ -14,7 +14,7 @@ export class DepartmentService {
 
   constructor(private http:HttpClient) { }
 
-  getList():Observable<ResponseApi>{
+  getListDep():Observable<ResponseApi>{
     return this.http.get<ResponseApi>(this.myApiUrl);
   }
 }
