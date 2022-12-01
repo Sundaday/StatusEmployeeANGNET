@@ -1,0 +1,15 @@
+table {
+    width: 100%;
+}
+
+.formTest{
+    width: 80%; 
+    margin-top: 50px; 
+    margin: auto; 
+    padding: 20px;
+}
+
+.mat-form-field{
+    font-size: 14px;
+    width: 100%;
+}
