@@ -14,5 +14,5 @@ public partial class Employee
     public DateTime? HireDate { get; set; }
     [ForeignKey("Department")]
     public int? IdDepartment { get; set; }
-    public virtual Department? Department { get; set; }
+    public Department? Department { get; set; }
 }
