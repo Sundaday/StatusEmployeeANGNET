@@ -10,6 +10,12 @@ import { ResponseApi } from '../Interfaces/response-api';
   providedIn: 'root'
 })
 export class DepartmentService {
+  private endpoint:string = environment.endpoint;
+  private myApiUrl:string = this.endpoint + "api/department";
 
-  constructor() { }
+  constructor(private http:HttpClient) { }
+
+  getListDep():Observable<ResponseApi>{
+    return this.http.get<ResponseApi>(this.myApiUrl);
+  }
 }
