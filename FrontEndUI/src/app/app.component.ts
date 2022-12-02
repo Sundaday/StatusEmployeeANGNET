@@ -61,4 +61,15 @@ export class AppComponent implements OnInit, AfterViewInit {
       }
     })
   }
+  editEmployee(employee:Employee) {
+    this.dialog.open(DialogAddEditComponent, {
+      disableClose: true,
+      data:employee,
+      width: "350px"
+    }).afterClosed().subscribe(result => {
+      if (result === "edited") {
+        this.showEmployees();
+      }
+    })
+  }
 }

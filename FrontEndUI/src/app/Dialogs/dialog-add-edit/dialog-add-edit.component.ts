@@ -38,7 +38,7 @@ export class DialogAddEditComponent implements OnInit {
 
   constructor(
     private dialogReference: MatDialogRef<DialogAddEditComponent>,
-    @Inject(MAT_DIALOG_DATA) public employeeData:Employee,
+    @Inject(MAT_DIALOG_DATA) public employeeData: Employee,
     private fb: FormBuilder,
     private _snackBar: MatSnackBar,
     private _departmentService: DepartmentService,
@@ -60,7 +60,18 @@ export class DialogAddEditComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    if (this.employeeData) {
+      this.formEmployee.patchValue({
+        fullName: this.employeeData.fullName,
+        idDepartment: this.employeeData.idDepartment,
+        salary: this.employeeData.salary,
+        hireDate: moment(this.employeeData.hireDate, 'DD/MM/YYYY')
+      })
+      this.action = "Edit";
+      this.actionButton = "Update";
+    }
+  }
 
   showAlert(msg: string, title: string) {
     this._snackBar.open(msg, title, {
@@ -72,22 +83,37 @@ export class DialogAddEditComponent implements OnInit {
 
   addEditEmployee() {
     const model: Employee = {
-      idEmployee: 0,
+      idEmployee: this.employeeData == null ? 0 : this.employeeData.idEmployee,
       fullName: this.formEmployee.value.fullName,
       idDepartment: this.formEmployee.value.idDepartment,
       salary: this.formEmployee.value.salary,
       hireDate: moment(this.formEmployee.value.hireDate).format('DD/MM/YYYY')
     }
-    this._employeeService.addEmp(model).subscribe({
-      next: (data) => {
-        if (data.status) {
-          this.showAlert('Employee created', 'success');
-          this.dialogReference.close('created');
-        } else {
-          this.showAlert('Could not create employee', 'error')
-        }
-      },
-      error: (e) => { }
-    })
+    if (this.employeeData == null) {
+      this._employeeService.addEmp(model).subscribe({
+        next: (data) => {
+          if (data.status) {
+            this.showAlert('Employee created', 'Success');
+            this.dialogReference.close('Created');
+          } else {
+            this.showAlert('Could not create employee', 'Error')
+          }
+        },
+        error: (e) => { }
+      })
+    } else {
+      this._employeeService.putEmp(model).subscribe({
+        next: (data) => {
+          if (data.status) {
+            this.showAlert('Employee updated', 'Success');
+            this.dialogReference.close('Updated');
+          } else {
+            this.showAlert('Could not edit employee', 'Error')
+          }
+        },
+        error: (e) => { }
+      })
+    }
+
   }
 }

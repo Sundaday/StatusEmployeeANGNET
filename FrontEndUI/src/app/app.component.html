@@ -35,9 +35,9 @@
       </ng-container>
 
       <ng-container matColumnDef="Actions">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 80rem;"></th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
         <td mat-cell *matCellDef="let row">
-          <button mat-icon-button color="primary">
+          <button mat-icon-button color="primary" (click)="editEmployee(row)">
             <mat-icon>edit</mat-icon>
           </button>
           <button mat-icon-button color="warn">
