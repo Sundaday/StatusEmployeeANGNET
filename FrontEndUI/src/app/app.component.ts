@@ -57,7 +57,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       disableClose: true,
       width: "350px"
     }).afterClosed().subscribe(result => {
-      if (result === "created") {
+      if (result === "Created") {
         this.showEmployees();
       }
     })
@@ -69,7 +69,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       data: employee,
       width: "350px"
     }).afterClosed().subscribe(result => {
-      if (result === "edited") {
+      if (result === "Edited") {
         this.showEmployees();
       }
     })
