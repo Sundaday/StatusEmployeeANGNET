@@ -7,36 +7,39 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { EmployeeService } from './Services/employee.service';
 
+import { DialogAddEditComponent } from './Dialogs/dialog-add-edit/dialog-add-edit.component';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, AfterViewInit {
-  displayedColumns:string[] = ['FullName','Department','Salary','HireDate','Actions'];
+  displayedColumns: string[] = ['FullName', 'Department', 'Salary', 'HireDate', 'Actions'];
   dataEmployee = new MatTableDataSource<Employee>();
 
   //@ViewChild(MatPaginator, {static: true}) paginator: MatPaginator = new MatPaginator(new MatPaginatorIntl(), ChangeDetectorRef.prototype);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
-    private _snackbar:MatSnackBar,
-    private _employeeService:EmployeeService
-  ){}
+    private _snackbar: MatSnackBar,
+    private _employeeService: EmployeeService,
+    private dialog: MatDialog
+  ) { }
 
-  applyFilter(event:Event){
+  applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataEmployee.filter = filterValue.trim().toLowerCase();
   }
 
-  showEmployees(){
+  showEmployees() {
     this._employeeService.getListEmp().subscribe({
-      next:(data)=>{
-        if(data.status){
+      next: (data) => {
+        if (data.status) {
           this.dataEmployee.data = data.value
         }
       },
-      error:(e)=>{}
+      error: (e) => { }
     })
   }
 
@@ -46,5 +49,16 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.dataEmployee.paginator = this.paginator;
+  }
+
+  addNewEmployee() {
+    this.dialog.open(DialogAddEditComponent, {
+      disableClose: true,
+      width: "350px"
+    }).afterClosed().subscribe(result => {
+      if (result === "created") {
+        this.showEmployees();
+      }
+    })
   }
 }

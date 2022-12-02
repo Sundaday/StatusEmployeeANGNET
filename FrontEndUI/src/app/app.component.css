@@ -13,3 +13,7 @@ table {
     font-size: 14px;
     width: 100%;
 }
+
+.mat-header-cell{
+    width: 80px;
+}

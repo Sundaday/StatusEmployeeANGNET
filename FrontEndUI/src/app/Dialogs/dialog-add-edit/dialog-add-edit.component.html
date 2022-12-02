@@ -1,0 +1,52 @@
+<h2 mat-dialog-title>{{action}} Employee</h2>
+<mat-dialog-content>
+    <form [formGroup]="formEmployee">
+        <mat-grid-list cols="1" rowHeight="80px">
+
+            <mat-grid-tile>
+                <mat-form-field appearance="outline">
+                    <mat-label>FullName</mat-label>
+                    <input matInput autocomplete="off" formControlName="fullName">
+                </mat-form-field>
+            </mat-grid-tile>
+            
+            <mat-grid-tile>
+                <mat-form-field appearance="outline">
+                    <mat-label>Department</mat-label>
+                    <mat-select formControlName="idDepartment">
+                        <mat-option *ngFor="let item of listDepartment" [value]="item.idDepartment">
+                            {{item.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </mat-grid-tile>
+            
+            <mat-grid-tile>
+                <mat-form-field appearance="outline">
+                    <mat-label>Salary</mat-label>
+                    <input matInput autocomplete="off" formControlName="salary">
+                </mat-form-field>
+            </mat-grid-tile>
+            
+            <mat-grid-tile>
+                <mat-form-field appearance="outline">
+                    <mat-label>Hire Date</mat-label>
+                    <input matInput [matDatepicker]="picker" autocomplete="off" formControlName="hireDate">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </mat-grid-tile>
+
+        </mat-grid-list>
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button mat-raised-button mat-dialog-close color="warn">Cancel</button>
+    <button mat-raised-button color="primary"
+        [disabled]="formEmployee.invalid"
+        (click)="addEditEmployee()"
+    >
+    {{actionButton}}
+    </button>
+</mat-dialog-actions>
